@@ -22,7 +22,7 @@
 
       if(!Auth::attempt(Input::only('email,password'))){
 
-        $this->message = "Invalid Login";
+        $this->_message = "Invalid Login";
 
         return false;
 
@@ -30,7 +30,7 @@
 
       if(!Auth::activated()){
 
-        $this->message = "Account Not Activated";
+        $this->_message = "Account Not Activated";
 
         return true;
 

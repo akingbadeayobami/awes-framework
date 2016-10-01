@@ -41,7 +41,7 @@ class DB{
 
 	public function query($sql, $params = array()){
 
-		echo $sql . "<br />";
+		//echo $sql . "<br />";
 
 		$this->_error = false;
 

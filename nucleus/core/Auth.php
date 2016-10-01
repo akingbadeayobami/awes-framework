@@ -12,11 +12,9 @@ class Auth{
 
 		$keys = array_keys($loginParameters);
 
-		$model = Model::table(Config::get('auth.table'))->where($keys[0],$loginParameters[$keys[0]]);
+		$user = Model::table(Config::get('auth.table'))->where($keys[0],$loginParameters[$keys[0]])->first();
 
-		$user = $model->first();
-
-		if(count($user) == 0){
+		if(!$user){
 
 			return false;
 

@@ -21,15 +21,23 @@
 
     private static $_params = [];
 
+    private static $staticCall = false;
+
     public function __construct(){
 
-        self::$_table = $this->table;
+        if(!self::$staticCall){
+
+          self::$_table = $this->table;
+
+        }
 
         self::$_instance = DB::getInstance();
 
     }
 
     public static function table($table){
+
+      self::$staticCall = true;
 
       self::$_table = $table;
 
@@ -369,7 +377,7 @@
 
       $results = self::get();
 
-      return $results[0];
+      return (count($results) > 0) ? $results[0] : 0;
 
     }
 
@@ -381,7 +389,7 @@
 
       $results = self::get();
 
-      return $results[0];
+      return (count($results) > 0) ? $results[0] : 0;
 
     }
 

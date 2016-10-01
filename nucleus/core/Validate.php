@@ -111,7 +111,7 @@ class Validate{
 
 						if(Model::table($ruleValue)->where($item,$value)->count() == 1){
 
-							$this->addError(["$item","$name already exists."]);
+							$this->addError(["$item","$name has already been taken."]);
 
 						}
 

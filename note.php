@@ -5,13 +5,16 @@ re - routing
 middleWare guest
 after middelware
 test multi templating
-validation extends to views
 composer autoloading
 unset($_GET['url'])
+more validation
 //
 // Php learnt
 magic method
 __get
+
+Test
+matches  and uniques
 
 function Templating(){}
   // How to include
@@ -59,6 +62,7 @@ function Templating(){}
 }
 
 function Validation(){
+  {{ (Error::has('email')) ? Error::get('email') : "" }}
 
   //title,
   //required
@@ -68,6 +72,10 @@ function Validation(){
   //matches:value
   //unique:value
   //type
+}
+
+function FormCreator(){
+  <input {{{ inputField('user','email') }}}>
 }
 
  RewriteBase /
