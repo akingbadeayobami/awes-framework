@@ -8,11 +8,11 @@
 
       'email'=> "text,title:Email,required,min:3,max:24",
 
-      'password'=> "password,title:Email,required,min:3,max:24",
+      'password'=> "password,title:Pasword,required,min:3,max:24,pattern:/.*/",
 
       'repassword'=> "password,title:Email,required:true,min:3,max:24",
 
-      'phone_number'=> "number,title:Email,required:true,min:3,max:24,pattern:/d{9}/",
+      'phone_number'=> "number,title:Email,required:true,min:3,max:24,pattern:/^\d{9}$/",
 
     ];
 

@@ -38,7 +38,7 @@
 
         if(in_array($each,array_keys(CoreExtension::get('validation.input_fields')))){
 
-          $type = " $each ";
+          $type = "$each";
 
         }
 
@@ -95,7 +95,7 @@
       }
 
     }
-    
+
     return 'type="' . $type . '" name="' . $field . '"' . $htmlValidation;
 
     //$validation = (isset($model->validations()->$method)) ? $model->validations()->$method : [];

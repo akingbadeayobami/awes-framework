@@ -38,7 +38,7 @@
 
 		public function action($submitButton, $model, $method, $params=[]){
 
-			if(Input::exists()){
+			if(Input::exists() && !empty($_POST)){
 
 				if(Input::has($submitButton)){
 

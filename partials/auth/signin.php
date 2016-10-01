@@ -10,8 +10,8 @@ __templateContent
            <h4 class="widget-header"><i class="icon-lock"></i> Signin</h4>
            <div class="widget-body text-center">
               <form class="form-horizontal form-signin-signup" method="post">
-               <input type="text" name="email" placeholder="Email" {{{ inputField('user','email') }}}>
-               <input type="password" name="password" placeholder="Password">
+               <input {{{ inputField('user','email') }}}>
+               <input {{{ inputField('user','password') }}}>
                <div class="remember-me">
                  <div class="pull-left">
                    <label class="checkbox">
