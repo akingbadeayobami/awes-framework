@@ -1,7 +1,7 @@
 <?php
 trait ClassInterface{
 
-	protected $_db,  $_data = [], $_message = "";
+	protected  $_data = [], $_message = "";
 
 	public function data(){
 

@@ -10,6 +10,7 @@ __templateContent
            <h4 class="widget-header"><i class="icon-lock"></i> Signin</h4>
            <div class="widget-body text-center">
               <form class="form-horizontal form-signin-signup" method="post">
+                {{ (Error::has('email')) ? Error::get('email') : "" }}
                <input {{{ inputField('user','email') }}}>
                <input {{{ inputField('user','password') }}}>
                <div class="remember-me">

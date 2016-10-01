@@ -26,7 +26,7 @@
 
     $fieldValidation = $model->validations()->$field;
 
-    $fieldValidation = explode(',',$fieldValidation);
+    $fieldValidation = explode('|',$fieldValidation);
 
     $type = "text";
 
@@ -80,13 +80,13 @@
 
           case 'pattern' :
 
-            $htmlValidation .= ' pattern="' . $value . '" ';
+            $htmlValidation .= ' pattern="' . $value . '" title="' . $each[2] . '" ';
 
           break;
 
           default:
 
-            $htmlValidation .= ' ' . $each[0] . '="' . $value . '" ';
+          //  $htmlValidation .= ' ' . $each[0] . '="' . $value . '" ';
 
           break;
 

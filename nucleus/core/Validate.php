@@ -15,11 +15,19 @@ class Validate{
 
 	public function check($source, $items = array()){
 
-		$name = "";
-
 		foreach($items as $item => $rules){
 
-			foreach($rules as $rule => $ruleValue){
+			$name = ucfirst($item);
+
+			$rules = explode("|",$rules);
+
+			foreach($rules as $eachRule){
+
+				$eachRule = explode(':',$eachRule);
+
+				$rule = $eachRule[0];
+
+				$ruleValue = (isset($eachRule[1])) ? $eachRule[1] : "";
 
 				$value = trim($source[$item]);
 
@@ -33,103 +41,81 @@ class Validate{
 
 					$this->addError(["$item","$name is required"]);
 
-				}else if(!empty($value)){
+					continue;
 
-					switch($rule){
+				}
 
-						case 'min' :
+				if(in_array($rule,array_keys(CoreExtension::get('validation.input_fields')))){
 
-							if (strlen($value) < $ruleValue){
+					$input_field = CoreExtension::get('validation.input_fields');
 
-								$this->addError(["$item","$name must be a minimum of $ruleValue characters."]);
+					$validation = $input_field[$rule];
 
-							}
+					if(!empty($validation)){
 
-						break;
+						if (!preg_match("%$validation%", $value)){
 
-						case 'max' :
+							$this->addError(["$item","Invalid $name"]) ;
 
-							if (strlen($value) > $ruleValue){
-
-								$this->addError(["$item","$name must be a maximum of $ruleValue characters."]);
-
-							}
-
-						break;
-
-						case 'pattern' : 	// 'pattern' => array("%VECTOR%", "It should contain VEctor"),
-
-							if (!preg_match($ruleValue[0], "$value")){
-
-								$this->addError(["$item","$name is invalid - " . $ruleValue[1]]) ;
-
-							}
-
-						break;
-
-						case 'matches' :
-
-							if ($value != $source[$ruleValue]){
-
-								$this->addError(["$item","$name must match."]);
-
-							}
-
-						break;
-
-						case 'unique' :
-
-							if(Input::get('thisID')){
-
-								$check = $this->_db->get($ruleValue, '1', '[["'.$item.'", "=", "'.$value.'"], "AND", ["id", "!=", "'.Input::get('thisID').'"] ]');
-
-							}else{
-
-								$check = $this->_db->get($ruleValue, '1',  '[["'.$item.'", "=", "'.$value.'"]]');
-
-							}
-
-
-							if($check->count()){
-
-								$this->addError(["$item","$name already exists."]);
-
-							}
-
-
-						break;
-
-						case 'type' : 	// time url etc
-
-							switch($ruleValue) {
-
-						/* 		case 'email' :
-
-									if (!preg_match('%{A-Za-z0-9._\$-}+@{A-Za-z0-9.-}+\.{A-Za-z}{2,4}%', "$value")){
-
-										$this->addError(["$item","Invalid Email"]) ;
-
-									}
-
-								break;
-								 */
-
-								case 'number' :
-
-									if (!preg_match('%\d{1,}%', "$value")){
-
-										$this->addError(["$item","Invalid Nuber"]) ;
-
-									}
-
-									break;
-
-
-							}
-
-						break;
+						}
 
 					}
+
+					continue;
+
+				}
+
+				switch($rule){
+
+					case 'min' :
+
+						if (strlen($value) < $ruleValue){
+
+							$this->addError(["$item","$name must be a minimum of $ruleValue characters."]);
+
+						}
+
+					break;
+
+					case 'max' :
+
+						if (strlen($value) > $ruleValue){
+
+							$this->addError(["$item","$name must be a maximum of $ruleValue characters."]);
+
+						}
+
+					break;
+
+					case 'pattern' :
+
+						if (!preg_match("%" . $ruleValue . "%", "$value")){
+
+							$this->addError(["$item","$name is invalid - " . $eachRule[2]]) ;
+
+						}
+
+					break;
+
+					case 'matches' :
+
+						if ($value != $source[$ruleValue]){
+
+							$this->addError(["$item","$name must match."]);
+
+						}
+
+					break;
+
+					case 'unique' :
+
+						if(Model::table($ruleValue)->where($item,$value)->count() == 1){
+
+							$this->addError(["$item","$name already exists."]);
+
+						}
+
+					break;
 
 				}
 
@@ -153,37 +139,6 @@ class Validate{
 
 	}
 
-	public static function hasError($errors,$field){
-
-		foreach($errors as $temp){
-
-			if ($temp[0] == $field){
-
-				return true;
-
-			}
-
-		}
-
-		return false;
-
-	}
-
-	public static function getError($errors,$field){
-
-		foreach($errors as $temp){
-
-			if ($temp[0] == $field){
-
-				return $temp[1];
-
-			}
-
-		}
-
-		return false;
-
-	}
 
 	public function errors(){
 

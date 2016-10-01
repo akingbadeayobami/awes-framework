@@ -6,13 +6,13 @@
 
     public $_validations = [
 
-      'email'=> "text,title:Email,required,min:3,max:24",
+      'email'=> "text|title:Email|required|min:3|max:24",
 
-      'password'=> "password,title:Pasword,required,min:3,max:24,pattern:/.*/",
+      'password'=> "password|title:Password|required|min:3|max:24|pattern:\w{1,}:Password Must Be Awesome",
 
-      'repassword'=> "password,title:Email,required:true,min:3,max:24",
+      'repassword'=> "password|title:Email|required:true|min:3|max:24",
 
-      'phone_number'=> "number,title:Email,required:true,min:3,max:24,pattern:/^\d{9}$/",
+      'phone_number'=> "number|title:Email|required:true|min:3|max:24|pattern:^\d{9}$",
 
     ];
 

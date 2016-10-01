@@ -2,7 +2,7 @@
 $GLOBALS['coreextension'] = array(
     'validation' => [
       'input_fields' => [
-          'text' => ".*",
+          'text' => "asasa",
           'number' => "/d",
           'date' => "",
           'url' => "",

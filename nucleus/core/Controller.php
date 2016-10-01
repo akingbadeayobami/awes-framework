@@ -48,15 +48,25 @@
 
 						$validate = new Validate();
 
-						$validation = (isset($model->validations()->$method)) ? $model->validations()->$method : [];
+						$validation = [];
+
+						foreach(Input::all() as $key => $field){
+
+							if(isset($model->validations()->$key)){
+
+								$validation[$key] = $model->validations()->$key;
+
+							}
+
+						}
 
 						$validate->check(Input::all() , $validation);
 
 						if(!$validate->passed()){
 
-							$this->errors = $validate->errors() ;
+							$GLOBALS['errors'] = $validate->errors() ;
 
-							 return false;
+							return false;
 
 						}
 
