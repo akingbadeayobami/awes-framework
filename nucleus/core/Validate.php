@@ -1,4 +1,9 @@
 <?php
+namespace Nucleus\Core;
+
+use Nucleus\Core\DB;
+use Nucleus\Core\CoreExtension;
+
 class Validate{
 
 	private $_passed = false,
@@ -91,7 +96,9 @@ class Validate{
 
 						if (!preg_match("%" . $ruleValue . "%", "$value")){
 
-							$this->addError(["$item","$name is invalid - " . $eachRule[2]]) ;
+							$desc = (isset($eachRule[2])) ? "- " . $eachRule[2] : "" ;
+
+							$this->addError(["$item","$name is invalid $desc"]) ;
 
 						}
 
@@ -101,7 +108,9 @@ class Validate{
 
 						if ($value != $source[$ruleValue]){
 
-							$this->addError(["$item","$name must match."]);
+							$otherField = (isset($eachRule[2])) ? $eachRule[2] : $ruleValue ;
+
+							$this->addError(["$item","$name must match " . $otherField]);
 
 						}
 

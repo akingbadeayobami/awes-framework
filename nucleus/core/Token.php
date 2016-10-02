@@ -1,4 +1,7 @@
 <?php
+
+namespace Nucleus\Core;
+
 class Token{
 
 	public static function generate(){
@@ -25,13 +28,17 @@ class Token{
 
 		if(Session::exists($tokenName) && $token === Session::get($tokenName)){
 
-			Session::delete($tokenName);
-
 			return true;
 
 		}
 
 		return false;
+
+	}
+
+	public static function delete(){
+
+		Session::delete(Config::get('session.token_name'));
 
 	}
 

@@ -1,5 +1,12 @@
 <?php
 
+namespace Nucleus\Core;
+
+use Nucleus\Core\Model;
+use Nucleus\Core\Session;
+use Nucleus\Core\Cookie;
+use Nucleus\Core\Hash;
+
 class Auth{
 
 	private static $_check = null;
@@ -12,7 +19,7 @@ class Auth{
 
 		$keys = array_keys($loginParameters);
 
-		$user = Model::table(Config::get('auth.table'))->where($keys[0],$loginParameters[$keys[0]])->first();
+		$user = Model::table(cg('auth.table'))->where($keys[0],$loginParameters[$keys[0]])->first();
 
 		if(!$user){
 
@@ -20,39 +27,49 @@ class Auth{
 
 		}
 
-		if(Hash::checkPassword($loginParameters[$keys[1]],$user->password)){
-
-			$this->_message = String::get('auth.login.invalid');
+		if(!Hash::checkPassword($loginParameters[$keys[1]],$user->password)){
 
 			return false;
 
 		}
 
-		$model->update([
+		if(cg('auth.activation')){
 
-			'lastaccess' => time()
+			if($user->active == '0'){
+
+				return 2; // actually a falsy truth
+
+			}
+
+		}
+
+		Model::table(cg('auth.table'))->updateId($user->id,[
+
+			'last_login' => Neutron::now()
 
 		]);
 
-		Session::put(Config::get('session.name'), $user->id);
+		Session::put(cg('session.name'), $user->id);
 
 		if($rememberMe){
 
-			$hash = Hash::unique();
+			$hash = Neutron::randomUniqueTo(32,cg('session.table'),'hash');
 
-			if(Model::table('users_session')->where('user_id',$user->id)->count()){
+			if(Model::table(cg('session.table'))->where('user_id',$user->id)->count() == 0){
 
-				Model::table('users_session')->create([
+				Model::table(cg('session.table'))->create([
 
 					'user_id' => $user->id,
 
-					'hash' => $hash
+					'hash' => $hash,
+
+					'created_at' => Neutron::now()
 
 				]);
 
 			}else{
 
-				Model::table('users_session')->where('user_id',$user->id)->update([
+				Model::table(cg('session.table'))->where('user_id',$user->id)->update([
 
 					'hash' => $hash
 
@@ -60,9 +77,47 @@ class Auth{
 
 			}
 
-			Cookie::put(Config::get('cookie.name'),$hash,Config::get('cookie/expiry'));
+			Cookie::put(cg('cookie.name'),$hash,cg('cookie/expiry'));
 
 		}
+
+		return true;
+
+	}
+
+	public static function create($fields = [], $password){
+
+		$fields[$password] = Hash::password(Input::get($password));
+
+		if(cg('auth.activation')){
+
+			$fields['active'] = 0;
+
+		}
+
+		$fields['joined'] = $fields['last_login'] = Neutron::now();
+
+		$user_id = Model::table(cg('auth.table'))->create($fields);
+
+		if(cg('auth.activation')){
+
+			$activationCode = Neutron::randomUniqueTo(22,cg('auth.activation_table'),'hash');
+
+			Model::table(cg('auth.activation_table'))->create([
+
+				'user_id' => $user_id,
+
+				'hash' => $activationCode,
+
+				'created_at' => Neutron::now()
+
+			]);
+
+			// Mail::send('activation',"xxx");
+
+		}
+
+		return $user_id;
 
 	}
 
@@ -74,29 +129,15 @@ class Auth{
 
 		}
 
-		if(Model::table(Config::get('auth.table'))->where('id', Session::get(Config::get('session.name'))->count() )){
+		if(Model::table(cg('auth.table'))->where('id', Session::get(cg('session.name')))->count()){
 
-			return self::$_id = Session::get(Config::get('session.name'));
+			return self::$_id = Session::get(cg('session.name'));
 
 		}
 
 		return false;
 
   }
-
-	public static function activated(){
-
-		if(Auth::user()->activated == 0){
-
-			self::logOut();
-
-			return false;
-
-		}
-
-		return true;
-
-	}
 
   public static function user(){
 
@@ -108,7 +149,7 @@ class Auth{
 
 		if(Auth::id()){
 
-			return self::$_user = Model::table(Config::get('auth.table'))->where('id', Auth::id() )->first();
+			return self::$_user = Model::table(cg('auth.table'))->where('id', Auth::id() )->first();
 
 		}
 
@@ -124,23 +165,23 @@ class Auth{
 
 		}
 
-		if(Session::get(Config::get('session.name')) && self::id()){
+		if(Session::get(cg('session.name')) && self::id()){
 
 			return self::$_check = true;
 
 		}
 
-		if(Cookie::exists(Config::get('cookie.name'))){
+		if(Cookie::exists(cg('cookie.name'))){
 
-		  $hashCheck = Model::table('users_session')->where('hash',Cookie::get(Config::get('cookie.name')))->first();
+		  $hashCheck = Model::table(cg('session.table'))->where('hash',Cookie::get(cg('cookie.name')))->first();
 
 			if($hashCheck){
 
-				 Session::put(Config::get('session.name'), $hashCheck->user_id);
+				 Session::put(cg('session.name'), $hashCheck->user_id);
 
-				 Model::table(Config::get('auth.table'))->updateId($hashCheck->user_id, [
+				 Model::table(cg('auth.table'))->updateId($hashCheck->user_id, [
 
-					 'lastaccess' => time()
+					 'last_login' => Neutron::now()
 
 				 ]);
 
@@ -162,35 +203,23 @@ class Auth{
 
 		}
 
-		Cookie::delete(Config::get('cookie.name'));
+		Cookie::delete(cg('cookie.name'));
 
-		Model::table('users_session')->where('user_id',Session::get(Config::get('session.name')))->first();
+		Model::table(cg('session.table'))->where('user_id',Session::get(cg('session.name')))->delete();
 
-		Session::delete(Config::get('session.name'));
-
-		$this->_message = String::get('auth.logout.valid');
+		Session::delete(cg('session.name'));
 
 		return true;
 
 	}
 
+	public static function activateAccount(){
 
+		if($user = Model::table(cg('activation.table'))->where('hash', Input::get('activatecode'))->first()){
 
-	public function activateAccount(){
+			Model::table(cg('activation.table'))->where('hash', Input::get('activatecode'))->delete();
 
-		$activatecode = Input::get('activatecode');
-
-		$data = $this->_db->get($this->_table, 'matric,id', '[["activated", "=", "' . $activatecode . '"], "LIMIT 1"]');
-
-		if($data->count() == 1){
-
-			$data = $data->first();
-
-			if($this->_db->update($this->_table, $data->id, ['activated' => 'true'])){
-
-				$Profile = new Profile;
-
-				$this->_data['name'] = $Profile->_getWhatFromMatric($data->matric,'dname');
+			if(Model::table(cg('auth.table'))->updateId($user->user_id,['active'=>1])){
 
 				$this->_message = 'Your Account Has Been Verified Successfully';
 
@@ -206,7 +235,7 @@ class Auth{
 
 	}
 
-	public function recoverPassword(){
+	public static function recoverPassword(){
 
 		$email = Input::get('email');
 
@@ -249,7 +278,7 @@ class Auth{
 
 		}
 
-		Model::table(Config::get('auth.table'))->updateId(self::id(), [
+		Model::table(cg('auth.table'))->updateId(self::id(), [
 
 			'password' => Hash::password($newPassword)
 

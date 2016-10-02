@@ -1,4 +1,7 @@
 <?php
+
+namespace Nucleus\Core;
+
 class CoreExtension {
 
 	public static function get($path = null){

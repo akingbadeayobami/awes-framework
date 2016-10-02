@@ -1,8 +1,12 @@
 <?php
 
-	class Controller {
+	namespace Nucleus\Core;
 
-		// private $errors = [];
+	use Nucleus\Core\View;
+	use Nucleus\Services\Middleware;
+	use Nucleus\Core\Validate;
+
+	class Controller {
 
 		public function view($view, $data=[]){
 
@@ -20,9 +24,13 @@
 
 		}
 
-		public function factory($model, $method, $params=[]){
+		public function factory($factory, $method, $params=[], $closure = false){
 
-			$model = new $model();
+			$factory = "__" . $factory;
+
+			$nameSpace = "Nucleus\Factories\\" . $factory;
+
+			$factory = new $nameSpace;
 
 			foreach($params as $key => $value){
 
@@ -30,21 +38,47 @@
 
 			}
 
-			$status = call_user_func_array([$model, $method],$params) || false;
+			$status = call_user_func_array([$factory, $method],$params) || false;
 
-			return (object)['data' =>  $model->data() , 'status' => $status, 'message' => $model->message() ];
+			$message = $factory->message();
+
+			if(isset($message) && strlen($message) > 0){
+
+				if($status){
+
+					Session::flash('success', $message);
+
+				}else{
+
+					Session::flash('error', $message);
+
+				}
+
+			}
+
+			if($closure){
+
+				return $closure((object)['data' =>  $factory->data() , 'status' => $status]);
+
+			}
+
+			return (object)['data' =>  $factory->data() , 'status' => $status, 'message' => $factory->message() ];
 
 		}
 
-		public function action($submitButton, $model, $method, $params=[]){
+		public function action($submitButton, $model, $method, $params=[],$closure = false ){
 
-			if(Input::exists() && !empty($_POST)){
+			if(Input::exists() && !empty($_REQUEST)){
 
 				if(Input::has($submitButton)){
 
 					if(Token::check(Input::get(Config::get('session.token_name')))){
 
-						$model = new $model();
+						$factory = $model;
+
+						$nameSpace = "Nucleus\Model\\" . $model;
+
+						$model = new $nameSpace;
 
 						$validate = new Validate();
 
@@ -70,31 +104,11 @@
 
 						}
 
-						foreach($params as $key => $value){
+						$return = $this->factory($factory,$method,$params,$closure);
 
-							$_GET[$key] = $value;
+						Token::delete();
 
-						}
-
-						$status = call_user_func_array([$model, $method], $params) || false;
-
-						$message = $model->message();
-
-						if(isset($message) && strlen($message) > 0){
-
-							if($status){
-
-								Session::flash('success', $message);
-
-							}else{
-
-								Session::flash('error', $message);
-
-							}
-
-						}
-
-						return (object)['data' =>  $model->data() , 'status' => $status];
+						return $return;
 
 					}
 

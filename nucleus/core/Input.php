@@ -1,4 +1,7 @@
 <?php
+
+namespace Nucleus\Core;
+
 class Input {
 
 	public static function exists (){

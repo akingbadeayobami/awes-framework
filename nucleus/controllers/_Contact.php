@@ -1,5 +1,7 @@
 <?php
 
+namespace Nucleus\Controllers;
+
 class _Contact extends Controller{
 
 	public function Us(){

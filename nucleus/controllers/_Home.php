@@ -1,4 +1,7 @@
 <?php
+namespace Nucleus\Controllers;
+
+use Nucleus\Core\Controller;
 
 class _Home extends Controller{
 

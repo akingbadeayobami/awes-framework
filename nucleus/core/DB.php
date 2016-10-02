@@ -1,5 +1,9 @@
 <?php
 
+namespace Nucleus\Core;
+
+use PDO;
+
 class DB{
 
 	private static $_instance = null;
@@ -18,11 +22,20 @@ class DB{
 
 		try{
 
-			$this->_pdo = new PDO('mysql:host=' . Config::get('mysql/host') . ';dbname=' . Config::get('mysql/db'), Config::get('mysql/username'), Config::get('mysql/password'));
+			$this->_pdo = new PDO('mysql:host=' . cg('mysql/host') . ';dbname=' . cg('mysql/db'), cg('mysql/username'), cg('mysql/password'));
 
-		} catch (PDOException $e){
+		} catch (\PDOException $e){
 
-			die($e->getMessage());
+			if(cg('site.environment') == 'development'){
+
+				die($e->getMessage());
+
+			}else{
+
+				Redirect::to(500);
+
+			}
+
 
 		}
 
@@ -63,9 +76,15 @@ class DB{
 
 			if(!$this->_query->execute()){
 
-				print_r($this->_query->errorInfo());
+				if(cg('site.environment') == 'development'){
+
+					print_r($this->_query->errorInfo());
+
+				}
 
 				$this->_error = true;
+
+				return false;
 
 			}
 
@@ -84,6 +103,12 @@ class DB{
 	public function error(){
 
 		return $this->_error;
+
+	}
+
+	public function lastInsertId(){
+
+		return $this->_pdo->lastInsertId();
 
 	}
 

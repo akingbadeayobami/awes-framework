@@ -1,11 +1,17 @@
 <?php
+
+namespace Nucleus\Services;
+
+use Nucleus\Core\Auth;
+use Nucleus\Core\Redirect;
+
 class Middleware {
 
 	public static function auth(){
 
     if(!Auth::check()){
 
-      return Redirect::to(Route::to('auth/signin'));
+      return Redirect::to('auth.signin');
 
     }
 
@@ -17,7 +23,7 @@ class Middleware {
 
     if(Auth::user()->role !== $role){
 
-      return Redirect::to(Route::to('auth/signin'));
+      return Redirect::to('auth.signin');
 
     }
 
@@ -26,12 +32,12 @@ class Middleware {
   }
 
 	public static function guest(){
-			// TODO guest
-		// if(!Auth::check()){
 
-	//	Redirect::to(Route::to(''));
+		if(Auth::check()){
 
-		//}
+			Redirect::to('');
+
+		}
 
 	}
 

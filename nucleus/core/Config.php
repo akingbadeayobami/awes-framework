@@ -1,4 +1,6 @@
 <?php
+namespace Nucleus\Core;
+
 class Config {
 
 	public static function get($path = null){

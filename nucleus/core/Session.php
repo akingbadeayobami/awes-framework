@@ -1,4 +1,7 @@
 <?php
+
+namespace Nucleus\Core;
+
 class Session {
 
 	public static function put($name, $value){
@@ -9,7 +12,7 @@ class Session {
 
 	public static function get($name){
 
-		return (self::exists($name)) ? Neutron::sanitize($_SESSION[$name]) : false;
+		return (self::exists($name)) ? ns($_SESSION[$name]) : false;
 
 	}
 

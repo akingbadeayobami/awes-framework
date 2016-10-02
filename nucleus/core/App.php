@@ -1,15 +1,25 @@
 <?php
 
+namespace Nucleus\Core;
+
+use Nucleus\Core\Neutron;
+use Nucleus\Core\Redirect;
+use Nucleus\Core\CoreExtension;
+
 class App{
 
-	protected $controller = 'home';
+	protected $controller;
 
-	protected $method = 'index';
+	protected $method;
 
 	protected $params = [];
 
 
 	public function __construct(){
+
+		$this->controller = CoreExtension::get('route.default.controller');
+
+		$this->method = CoreExtension::get('route.default.method');
 
 		$url = Neutron::parseUrl();
 
@@ -25,7 +35,9 @@ class App{
 
 		$this->controller = "_" . $this->controller;
 
-		$this->controller = new $this->controller;
+		$nameSpace = "Nucleus\Controllers\\" . $this->controller;
+
+		$this->controller = new $nameSpace;
 
 		if(isset($url[1])){
 
@@ -41,7 +53,7 @@ class App{
 
 		if(!method_exists($this->controller, $this->method)){
 
-				Redirect::to(Route::to(''));
+				Redirect::to('');
 
 		}
 

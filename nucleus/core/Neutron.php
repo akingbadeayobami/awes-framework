@@ -1,9 +1,18 @@
 <?php
+
+namespace Nucleus\Core;
+
 class Neutron{
 
 	public static function sanitize ($string){
 
 		return htmlentities($string, ENT_QUOTES, 'UTF-8');
+
+	}
+
+	public static function now(){
+
+		return date('Y-m-d H:i:s');
 
 	}
 
@@ -68,6 +77,20 @@ class Neutron{
 		}
 
 		return $return;
+
+	}
+
+	public static function randomUniqueTo($length,$table,$field){
+
+		$random = self::randomChar($length);
+
+		if(Model::table($table)->where($field,$random)->count() == 1){
+
+			return self::randomUniqueTo($length,$table,$field);
+
+		}
+
+		return $random;
 
 	}
 

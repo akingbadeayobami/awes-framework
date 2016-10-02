@@ -1,4 +1,6 @@
-
+<?php
+  use Nucleus\Core\Session;
+?>
    _if(Session::exists('success'))
 
      <div class="alert alert-success" role="alert"><strong>Well done! </strong>{{ Session::flash('success') }}</div>

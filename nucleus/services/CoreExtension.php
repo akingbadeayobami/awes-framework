@@ -18,5 +18,11 @@ $GLOBALS['coreextension'] = array(
           'datetime' => "",
         ],
       ],
+      'route'=>[
+        'default' =>[
+          'controller' => 'home',
+          'method' => 'index'
+        ]
+      ]
 );
 ?>

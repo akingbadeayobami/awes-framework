@@ -1,12 +1,26 @@
 <?php
 
+namespace Nucleus\Controllers;
+
+use Nucleus\Core\Input;
+use Nucleus\Core\Redirect;
+use Nucleus\Core\Controller;
+
 class _Auth extends Controller{
 
 	public function signin(){
 
 		$this->middleWare('guest');
 
-		$this->action('signIn','User','signin',Input::all());
+		$this->action('signIn','User','signin',Input::all(), function($data){
+
+			if($data->status == true){
+
+				Redirect::to("");
+
+			}
+
+		});
 
 		return $this->view('auth.signin');
 
@@ -55,6 +69,18 @@ class _Auth extends Controller{
 			'title' => 'Account Activation'
 
 		]);
+
+	}
+
+  public function signout(){
+
+		$this->middleWare('auth');
+
+		$this->factory('User','signOut',Input::all(), function(){
+
+			Redirect::to('');
+
+		});
 
 	}
 

@@ -1,11 +1,15 @@
 <?php
 //use phpFastCache\CacheManager;
 
+namespace Nucleus\Core;
+
+use Nucleus\core\ModelWrapper;
+
   class Model{
 
-    protected static $_table;
+    use ModelWrapper;
 
-    private static $_action;
+    protected static $_table;
 
     private static $_where = "";
 
@@ -35,6 +39,18 @@
 
     }
 
+    public static function resetProperties(){
+
+      self::$_table = self::$_where = self::$_orderBy = self::$_limit = self::$_query = "";
+
+      self::$_fields = "*";
+
+      self::$_params = [];
+
+      self::$staticCall = false;
+
+    }
+
     public static function table($table){
 
       self::$staticCall = true;
@@ -52,7 +68,11 @@
 
       self::$_query = "SELECT " . self::$_fields . " FROM " . self::$_table . " " . self::$_where . " " . self::$_orderBy . " " . self::$_limit;
 
-      return self::$_instance->query(self::$_query, self::$_params)->results();
+      $return = self::$_instance->query(self::$_query, self::$_params)->results();
+
+      self::resetProperties();
+
+      return $return;
 
     }
 
@@ -79,9 +99,13 @@
 
       if(!self::$_instance->query($sql, self::$_params)->error()){
 
-        return true; // lastInsertedId
+        self::resetProperties();
+
+        return true;
 
       }
+
+      return false;
 
     }
 
@@ -91,7 +115,11 @@
 
       self::$_query = "DELETE FROM " . self::$_table . " " . self::$_where;
 
-      return ( self::$_instance->query(self::$_query, self::$_params) ) ? true : false;
+      $return = ( self::$_instance->query(self::$_query, self::$_params) ) ? true : false;
+
+      self::resetProperties();
+
+      return $return;
 
     }
 
@@ -121,7 +149,11 @@
 
         if(!self::$_instance->query($sql, $data)->error()){
 
-          return true; // lastInsertedId
+          $return = self::$_instance->lastInsertId();
+
+          self::resetProperties();
+
+          return $return;
 
         }
 
@@ -377,7 +409,7 @@
 
       $results = self::get();
 
-      return (count($results) > 0) ? $results[0] : 0;
+      return (count($results) > 0) ? $results[0] : [];
 
     }
 
@@ -389,7 +421,7 @@
 
       $results = self::get();
 
-      return (count($results) > 0) ? $results[0] : 0;
+      return (count($results) > 0) ? $results[0] : [];
 
     }
 

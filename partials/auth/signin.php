@@ -11,16 +11,16 @@ __templateContent
            <h4 class="widget-header"><i class="icon-lock"></i> Signin</h4>
            <div class="widget-body text-center">
               <form class="form-horizontal form-signin-signup" method="post">
-               <input {{{ inputField('user','email') }}}>
-               <input {{{ inputField('user','password') }}}>
+               <input {{{ inputField('user.email') }}} />
+               <input {{{ inputField('user.password') }}} />
                <div class="remember-me">
                  <div class="pull-left">
                    <label class="checkbox">
-                     <input type="checkbox"> Remember me
+                     <input type="checkbox" name="rememberMe"> Remember me
                    </label>
                  </div>
                  <div class="pull-right">
-                   <a href="{{ Route::to('auth.forgotpassword') }}">Forgot password?</a>
+                   <a href="{{ url('auth.forgotpassword') }}">Forgot password?</a>
                  </div>
                  <div class="clearfix"></div>
                </div>
@@ -28,7 +28,7 @@ __templateContent
                <button type="submit" name="signIn" value="1" class="btn btn-primary btn-large">Sign In</button>
              </form>
              <h4><i class="icon-question-sign"></i> Don't have an account?</h4>
-             <a href="{{ Route::to('auth.signup') }}" class="btn btn-large bottom-space">Signup</a>
+             <a href="{{ url('auth.signup') }}" class="btn btn-large bottom-space">Signup</a>
            </div>
          </div>
        </div>

@@ -4,6 +4,8 @@
 
   require_once 'nucleus/init.php';
 
+  use Nucleus\Core\App;
+
   new App();
 
 ?>

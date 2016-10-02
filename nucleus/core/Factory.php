@@ -1,5 +1,7 @@
 <?php
-trait ClassInterface{
+namespace Nucleus\Core;
+
+trait Factory{
 
 	protected  $_data = [], $_message = "";
 
@@ -12,12 +14,6 @@ trait ClassInterface{
 	public function message(){
 
 		return $this->_message;
-
-	}
-
-	public function validations(){
-
-		return (object) $this->_validations;
 
 	}
 

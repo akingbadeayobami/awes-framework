@@ -10,14 +10,14 @@ $GLOBALS['config'] = array(
 		'author' => 'Akingbade Ayobami',
 		'db_prefix' => "",
 		'color' => 'primary',
-		'environment' => 'development',
+		'environment' => 'development', // production
 		'lang' => 'en'
 	],
 	'mysql' => [
 		'host' => '127.0.0.1',
 		'username' => 'root',
 		'password' => '',
-		'db' => 'lr'
+		'db' => 'bookseller'
 	],
 	'cookie' => [
 		'name' => 'bookselleruser',
@@ -25,14 +25,16 @@ $GLOBALS['config'] = array(
 	],
 	'auth' => [
 		'table' => 'users',
-		'activation' => true
+		'activation' => true,
+		'activation_table' => 'activations'
 	],
 	'views' => [
 		'directory' => '/partials/'
 	],
 	'session' => [
 		'name' => 'bookselleruser_session',
-		'token_name' => '__token'
+		'token_name' => '__token',
+		'table' => 'users_session'
 	]
 );
 ?>

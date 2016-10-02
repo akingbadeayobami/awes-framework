@@ -1,16 +1,22 @@
 <?php
 
- class User extends Model{
+namespace Nucleus\Model;
 
-    use ClassInterface;
+use Nucleus\Core\Model;
+
+ class User extends Model{
 
     public $_validations = [
 
-      'email'=> "text|title:Email|required|min:3|max:24",
+      'email'=> "email|title:E-mail|required|min:3|max:24", // |unique:users
+
+      'fname'=> "text|title:Last Name|required|min:3|max:24",
+
+      'lname'=> "text|title:First Name|required|min:3|max:24",
 
       'password'=> "password|title:Password|required|min:3|max:24|pattern:\w{1,}:Password Must Be Awesome",
 
-      'repassword'=> "password|title:Email|required:true|min:3|max:24",
+      'repassword'=> "password|title:Re-Password|required:true|matches:password",
 
       'phone_number'=> "number|title:Email|required:true|min:3|max:24|pattern:^\d{9}$",
 
@@ -18,29 +24,17 @@
 
     protected $table = "users";
 
-    public function signin(){
+    public function hasProfile($user_id){
 
-      if(!Auth::attempt(Input::only('email,password'))){
-
-        $this->_message = "Invalid Login";
-
-        return false;
-
-      }
-
-      if(!Auth::activated()){
-
-        $this->_message = "Account Not Activated";
-
-        return true;
-
-      }
-
-      return true;
+    //  return Profile::where('user_id',$user_id)->first();
 
     }
 
+    public function hasStatus($user_id){
 
+      // return Status::
+
+    }
 
   }
 

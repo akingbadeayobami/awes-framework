@@ -1,6 +1,27 @@
 <?php
-  function url($content = ""){
-      return Config::get('site/url') . '/' . $content;
+
+use Nucleus\Core\Neutron;
+use Nucleus\Core\Config;
+use Nucleus\Core\Route;
+use Nucleus\Core\Token;
+use Nucleus\Core\Validate;
+
+  function url($to = ""){
+
+    return Route::to($to);
+
+  }
+
+  function cg($object){
+
+    return Config::get($object);
+
+  }
+
+  function ns($string){
+
+    return Neutron::sanitize($string);
+
   }
 
   function vd($data){
@@ -14,13 +35,21 @@
 
   function csrfToken(){
 
-    return '<input type="hidden" name="' . Config::get('session.token_name') . '" value="' . Token::generate() . '">';
+    return '<input type="hidden" name="' . cg('session.token_name') . '" value="' . Token::generate() . '">';
 
   }
 
-  function inputField($model,$field){
+  function inputField($object){
 
-    $model = new $model();
+    $object = explode('.',$object);
+
+    $model = $object[0];
+
+    $field = $object[1];
+
+    $nameSpace = "Nucleus\Model\\" . $model;
+
+    $model = new $nameSpace;
 
     $validate = new Validate();
 

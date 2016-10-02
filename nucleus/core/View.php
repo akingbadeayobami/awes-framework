@@ -1,4 +1,7 @@
 <?php
+namespace Nucleus\Core;
+
+use Nucleus\Core\Auth;
 
 class View{
 
@@ -10,7 +13,7 @@ class View{
 
     $view = str_replace(".","/",$view);
 
-		$view = file_get_contents( BASE_DIR . Config::get('views/directory') . $view . '.php');
+		$view = file_get_contents( BASE_DIR . cg('views/directory') . $view . '.php');
 
     $this->data = $data;
 
@@ -66,7 +69,7 @@ class View{
 
     ob_start();
 
-      eval(' ?> ' . $view . '<?php ');
+    eval(' ?> ' . $view . '<?php ');
 
     $view = ob_get_clean();
 
@@ -121,7 +124,7 @@ class View{
     $view = str_replace('}}}','?>', $view);
 
     // replace the htmlentities
-    $view = str_replace('{{','<?=Neutron::sanitize(', $view);
+    $view = str_replace('{{','<?=ns(', $view);
 
     $view = str_replace('}}',')?>', $view);
 
@@ -211,7 +214,7 @@ class View{
 
       // chack if the include has a controller; to append it;
 
-      $include = file_get_contents( BASE_DIR . Config::get('views/directory') . 'includes/' . $includeName . '.php');
+      $include = file_get_contents( BASE_DIR . cg('views/directory') . 'includes/' . $includeName . '.php');
 
       $include = self::parse($include);
 
@@ -259,7 +262,7 @@ class View{
     $templateName = str_replace('__template:','',$templateNameMatch[0]);
 
     //Load the template
-    $template = file_get_contents( BASE_DIR . Config::get('views/directory') . 'templates/' . $templateName . '.php');
+    $template = file_get_contents( BASE_DIR . cg('views/directory') . 'templates/' . $templateName . '.php');
 
     $template = self::parse($template);
 
