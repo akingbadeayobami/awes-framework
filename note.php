@@ -3,19 +3,17 @@ post method
 file bags
 re - routing
 try anc catch fro eval
-middleWare guest
 add php fastcache
 after middelware
 chack if the include has a controller; to append it;
 migration
+filters
 // Mail::send('activation',"xxx");
 test multi templating
-
 activation testing
 need an error broadcaster
 unset($_GET['url'])
 more validation
-mailing
 //
 // Php learnt
 magic method
@@ -24,21 +22,9 @@ __get
 //comit
 
 input filed to objlke
-auth registering no mail part yet
 added randomUniqueTo
 redirect :: to only
 added closire for actons
-auth guest middleware,  auth id working and auth attempt
-and added resetProperties to moel to clean the garbages propeties for new ones
-added the consept of factories
-
-Test
-
-
-// new commit
-finally remove dthe old autoload
-chnaged middle ware to instance class
-added ViewAutoLoad for views 
 
 
 function features(){
