@@ -1,6 +1,3 @@
-<?php
-  use Nucleus\Core\Auth;
-?>
 <div class="nav-agency">
   <div class="navbar navbar-static-top">
     <!-- navbar-fixed-top -->
@@ -9,28 +6,21 @@
         <div id="main-nav">
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="index.html">Home</a> </li>
+              <li class="active"><a href="{{ url('') }}">Home</a> </li>
+              <li class="active"><a href="{{ url('') }}">About Us</a> </li>
+              <li class="active"><a href="{{ url('') }}">Books</a> </li>
+              <li class="active"><a href="{{ url('') }}">Blog</a> </li>
+              <li class="active"><a href="{{ url('') }}">Book Promotion</a> </li>
+              <li class="active"><a href="{{ url('') }}">Event Map</a> </li>
+              <li class="active"><a href="{{ url('') }}">Publishing</a> </li>
+              <li class="active"><a href="{{ url('') }}">Consulting</a> </li>
+              <li class="active"><a href="{{ url('') }}">Adverts</a> </li>
               <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"> Work <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="work.html">One Column</a></li>
                   <li><a href="work-two-columns.html">Two Column</a></li>
                   <li><a href="work-three-columns.html">Three Column</a></li>
                   <li><a href="work-details.html">Work Details</a></li>
-                </ul>
-              </li>
-              <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"> Pricing <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="pricing.html">Four Column</a></li>
-                  <li><a href="pricing-three-columns.html">Three Column</a></li>
-                </ul>
-              </li>
-              <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-                  Pages
-                 <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="faq.html">FAQ</a></li>
-                  <li><a href="contact.html">Contact Us</a></li>
-                  <li><a href="components.html">Components</a></li>
                 </ul>
               </li>
               _if(Auth::check())

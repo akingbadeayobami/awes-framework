@@ -12,7 +12,7 @@ class Cookie{
 
 	public static function get($name){
 
-		return Neutron::sanitize($_COOKIE[$name]);
+		return ns($_COOKIE[$name]);
 
 	}
 

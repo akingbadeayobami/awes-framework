@@ -12,4 +12,15 @@
  *
  */
 
-require_once __DIR__."/phpFastCache/phpFastCache.php";
+namespace phpFastCache\Exceptions;
+
+use \Exception;
+
+/**
+ * Class phpFastCacheCoreException
+ * @package phpFastCache\Exceptions
+ */
+class phpFastCacheCoreException extends Exception
+{
+
+}

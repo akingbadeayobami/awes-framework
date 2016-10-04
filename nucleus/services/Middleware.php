@@ -7,7 +7,7 @@ use Nucleus\Core\Redirect;
 
 class Middleware {
 
-	public static function auth(){
+	public function auth(){
 
     if(!Auth::check()){
 
@@ -19,7 +19,7 @@ class Middleware {
 
   }
 
-	public static function hasRole($role){
+	public function hasRole($role){
 
     if(Auth::user()->role !== $role){
 
@@ -31,7 +31,7 @@ class Middleware {
 
   }
 
-	public static function guest(){
+	public function guest(){
 
 		if(Auth::check()){
 

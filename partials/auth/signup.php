@@ -17,6 +17,7 @@ __templateContent
                <input {{{ inputField('user.password') }}}>
                <input {{{ inputField('user.repassword') }}}>
                {{{ csrfToken() }}}
+               <p> By creating an account, you agree to {{ cg('site.name') }} <a href="#">Terms Of Use</a> </p>
                <div class="clearfix"></div>
                <button type="submit" name="signUp" value="1" class="btn btn-primary btn-large"> Sign Up</button>
              </form>

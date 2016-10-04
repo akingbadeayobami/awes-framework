@@ -67,6 +67,8 @@ class View{
 
     $view = self::replaceLogicBlocks($view);
 
+    $view = file_get_contents( NUCLEUS . '/services/ViewAutoLoad.php') . $view;
+
     ob_start();
 
     eval(' ?> ' . $view . '<?php ');

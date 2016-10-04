@@ -3,8 +3,8 @@ post method
 file bags
 re - routing
 try anc catch fro eval
-session in view
 middleWare guest
+add php fastcache
 after middelware
 chack if the include has a controller; to append it;
 migration
@@ -22,23 +22,36 @@ magic method
 __get
 
 //comit
-composer autoloading
-default route fom coreextension
-token delte after form is processed to enable easy form debugging
+
 input filed to objlke
-got th elast inserted id return in creations
-validation unique
-log out working
 auth registering no mail part yet
 added randomUniqueTo
 redirect :: to only
 added closire for actons
 auth guest middleware,  auth id working and auth attempt
 and added resetProperties to moel to clean the garbages propeties for new ones
-added modelwrapper
 added the consept of factories
+
 Test
 
+
+// new commit
+finally remove dthe old autoload
+chnaged middle ware to instance class
+added ViewAutoLoad for views 
+
+
+function features(){
+  Factorrus
+  Model ORM
+  Securti
+  Model
+ Auth
+ Api ready
+ Auto loading
+ convention / config
+ mvc
+}
 
 function Templating(){}
   // How to include

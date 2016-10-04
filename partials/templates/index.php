@@ -10,10 +10,7 @@ __include:header
   <div class="container show-case-item">
     <h1> ENGAGE & INNOVATE, OR DIE<br />
       (555) 111-0000 </h1>
-    <p> Gone are the days of building simple websites. Clients are demanding more functionality
-      and better results from their websites and we create unforgettable brand experiences.
-      Our passion is helping design and build solutions that strike the perfect balance
-      between users, business, and technology.</p>
+    <p> Quality Books At Affordable Prices</p>
     <a href="work.html" class="bigbtn">View Our Work</a>
     <div class="clearfix"> </div>
   </div>

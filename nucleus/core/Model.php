@@ -1,9 +1,9 @@
 <?php
-//use phpFastCache\CacheManager;
 
 namespace Nucleus\Core;
 
 use Nucleus\core\ModelWrapper;
+use phpFastCache\CacheManager;
 
   class Model{
 

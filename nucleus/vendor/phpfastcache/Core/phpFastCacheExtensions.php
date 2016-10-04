@@ -12,4 +12,20 @@
  *
  */
 
-require_once __DIR__."/phpFastCache/phpFastCache.php";
+namespace phpFastCache\Core;
+
+/**
+ * Class phpFastCacheExtensions
+ * @package phpFastCache\Core
+ */
+abstract class phpFastCacheExtensions
+{
+    /**
+     * @param $name
+     * @param $agr
+     */
+    public function __call($name, $agr)
+    {
+
+    }
+}

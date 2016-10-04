@@ -14,7 +14,6 @@ class App{
 
 	protected $params = [];
 
-
 	public function __construct(){
 
 		$this->controller = CoreExtension::get('route.default.controller');

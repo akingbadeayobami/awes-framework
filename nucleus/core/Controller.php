@@ -3,7 +3,6 @@
 	namespace Nucleus\Core;
 
 	use Nucleus\Core\View;
-	use Nucleus\Services\Middleware;
 	use Nucleus\Core\Validate;
 
 	class Controller {
@@ -120,7 +119,11 @@
 
 		public function middleWare($function, $params = []){
 
-			return call_user_func_array(['Middleware', $function], $params);
+			$nameSpace = "Nucleus\Services\Middleware";
+
+			$middleWare = new $nameSpace;
+
+			return call_user_func_array([$middleWare, $function], $params);
 
 		}
 

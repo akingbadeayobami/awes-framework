@@ -3,6 +3,8 @@
 namespace Nucleus\Factories;
 
 use Nucleus\Core\Factory;
+use Nucleus\Core\Auth;
+use Nucleus\Core\Input;
 
  class __User {
 

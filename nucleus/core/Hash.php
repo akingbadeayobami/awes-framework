@@ -1,4 +1,6 @@
 <?php
+namespace Nucleus\Core;
+
 class Hash{
 
 	public static function make($string, $salt = ''){

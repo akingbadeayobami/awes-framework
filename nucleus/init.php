@@ -32,33 +32,5 @@ spl_autoload_register(function($autoloadClass) {
 		require_once NUCLEUS . '/' . $directory . '/' . $file . '.php';
 
 	}
-
-	$class = $autoloadClass;
-
-	if(file_exists(NUCLEUS . '/core/' . $class . '.php')){
-
-		require_once NUCLEUS . '/core/' . $class . '.php';
-
-	}else if(file_exists(NUCLEUS . '/classes/' . $class . '.php')){
-
-		require_once NUCLEUS . '/classes/' . $class . '.php';
-
-	}else if(file_exists(NUCLEUS . '/controllers/' . $class . '.php')){
-
-		require_once NUCLEUS . '/controllers/' . $class . '.php';
-
-	}else if(file_exists(NUCLEUS . '/model/' . $class . '.php')){
-
-		require_once NUCLEUS . '/model/' . $class . '.php';
-
-	}else if(file_exists(NUCLEUS . '/services/' . $class . '.php')){
-
-		require_once NUCLEUS . '/services/' . $class . '.php';
-
-	}else if(file_exists(NUCLEUS . '/factories/' . $class . '.php')){
-
-		require_once NUCLEUS . '/factories/' . $class . '.php';
-
-	}
-
+	
 });
