@@ -14,6 +14,7 @@ activation testing
 need an error broadcaster
 unset($_GET['url'])
 more validation
+meta
 //
 // Php learnt
 magic method
